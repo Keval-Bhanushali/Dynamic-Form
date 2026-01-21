@@ -6,15 +6,26 @@ use App\Http\Requests\StoreFormRequest;
 use App\Http\Requests\UpdateFormRequest;
 use App\Models\Field;
 use App\Models\Form;
+use Illuminate\Http\Request;
 
 class FormController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $forms = Form::with(['fields', 'submissions'])->paginate(10);
+
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('form.partials.forms-table', compact('forms'))->render(),
+                'pagination' => (string) $forms->links('pagination::bootstrap-5'),
+                'first_item' => $forms->firstItem(),
+                'last_item' => $forms->lastItem(),
+                'total' => $forms->total(),
+            ]);
+        }
 
         return view('form.index', compact('forms'));
     }
@@ -55,9 +66,22 @@ class FormController extends Controller
      */
     public function show(Form $form)
     {
-        $form->load(['fields', 'submissions']);
+        $searchTerm = request('search', '');
 
-        return view('form.show', compact('form'));
+        $submissions = $form->submissions()
+            ->when($searchTerm, function ($query) use ($searchTerm) {
+                return $query->where('submission_text', 'like', '%'.$searchTerm.'%');
+            })
+            ->paginate(10);
+
+        if (request()->ajax()) {
+            return response()->json([
+                'submissions' => view('form.partials.submission-rows', compact('form', 'submissions'))->render(),
+                'pagination' => $submissions->links('pagination::bootstrap-5')->toHtml(),
+            ]);
+        }
+
+        return view('form.show', compact('form', 'submissions'));
     }
 
     /**

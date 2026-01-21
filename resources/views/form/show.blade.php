@@ -79,122 +79,53 @@
 <div class="row justify-content-center">
     <div class="col-lg-9">
 
-        <!-- Form Card -->
-        <div class="card card-dark shadow-lg mb-4">
-            <div class="card-header card-header-dark">
-                <h4 class="mb-1">{{ $form->name }}</h4>
-                <small class="opacity-75">{{ $form->description }}</small>
-            </div>
-
-            <div class="card-body p-4">
-                <form action="{{ route('forms.submissions.store', $form) }}" method="POST">
-                    @csrf
-
-                    @foreach($form->fields as $field)
-                    <div class="mb-4">
-                        <label for="field_{{ $field->id }}" class="form-label">
-                            {{ $field->label }}
-                            @if($field->pivot->is_required)
-                            <span class="badge-required">*</span>
-                            @endif
-                        </label>
-
-                        @switch($field->type)
-                        @case('text')
-                        <input type="text" class="form-control" id="field_{{ $field->id }}"
-                            name="data[{{ $field->id }}]" {{ $field->pivot->is_required ? 'required' : '' }}>
-                        @break
-
-                        @case('number')
-                        <input type="number" class="form-control" id="field_{{ $field->id }}"
-                            name="data[{{ $field->id }}]" {{ $field->pivot->is_required ? 'required' : '' }}>
-                        @break
-
-                        @case('email')
-                        <input type="email" class="form-control" id="field_{{ $field->id }}"
-                            name="data[{{ $field->id }}]" {{ $field->pivot->is_required ? 'required' : '' }}>
-                        @break
-
-                        @case('date')
-                        <input type="date" class="form-control" id="field_{{ $field->id }}"
-                            name="data[{{ $field->id }}]" {{ $field->pivot->is_required ? 'required' : '' }}>
-                        @break
-                        @endswitch
-                    </div>
-                    @endforeach
-
-                    <div class="text-end">
-                        <button type="submit" class="btn btn-gradient px-4">
-                            🚀 Submit
-                        </button>
-                    </div>
-                </form>
-            </div>
+        <div class="d-flex justify-content-end mb-4">
+            <a href="{{ route('submission.create', $form) }}" class="btn btn-gradient">
+                + New Submission
+            </a>
         </div>
 
-        <!-- Submissions -->
         @if($form->submissions->count() > 0)
         <div class="card card-dark shadow-lg mb-4">
             <div class="card-header bg-transparent border-bottom border-light border-opacity-10">
                 <h5 class="mb-0 text-light">📄 Submitted Data</h5>
             </div>
 
-            <div class="card-body p-0">
+            <div class="card-body p-3">
+                <div class="d-flex justify-content-between mb-3">
+                    <div class="w-50">
+                        <input type="text" id="search-input" class="form-control form-control-lg"
+                            placeholder="Search submissions...">
+                    </div>
+                </div>
+
                 <div class="table-responsive">
-                    <table class="table table-dark-custom mb-0">
+                    <table class="table table-dark table-striped table-hover mb-0">
                         <thead>
                             <tr>
                                 @foreach($form->fields as $field)
-                                <th>{{ $field->label }}</th>
+                                <th class="text-nowrap">{{ $field->label }}</th>
                                 @endforeach
                                 <th class="text-end">Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @foreach($form->submissions as $submission)
-                            @php $rawData = json_decode($submission->data, true) ?? []; @endphp
-                            <tr>
-                                @foreach($form->fields as $field)
-                                <td>
-                                    @php
-                                    $value = $rawData[$field->label] ?? $rawData[$field->id] ?? '-';
-                                    $displayValue = (is_string($value) && preg_match('/^\d{4}-\d{2}-\d{2}$/', $value))
-                                    ? \Carbon\Carbon::parse($value)->format('m/d/Y')
-                                    : $value;
-                                    @endphp
-                                    {{ $displayValue }}
-                                </td>
-                                @endforeach
-                                <td class="text-end action-btns">
-                                    <a href="{{ route('submissions.show', $submission) }}"
-                                        class="btn btn-outline-info btn-sm">
-                                        <i class="bi bi-eye"></i>
-                                    </a>
-
-                                    <a href="{{ route('submissions.edit', $submission) }}"
-                                        class="btn btn-outline-warning btn-sm">
-                                        <i class="bi bi-pencil"></i>
-                                    </a>
-
-                                    <form action="{{ route('submissions.destroy', $submission) }}" method="POST"
-                                        class="d-inline" onsubmit="return confirm('Are you sure?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-outline-danger btn-sm">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                            @endforeach
+                        <tbody id="submissions-table">
+                            @include('form.partials.submission-rows', ['form' => $form, 'submissions' => $submissions])
                         </tbody>
                     </table>
                 </div>
             </div>
+
+            @if(isset($submissions) && $submissions->hasPages())
+            <div class="d-flex justify-content-end mt-3 mb-3 me-3">
+                <div class="pagination-container">
+                    {{ $submissions->links('pagination::bootstrap-5') }}
+                </div>
+            </div>
+            @endif
         </div>
         @endif
 
-        <!-- Footer Buttons -->
         <div class="d-flex justify-content-between mb-4">
             <a href="{{ route('forms.index') }}" class="btn btn-outline-secondary">
                 ← Back to Forms
@@ -206,5 +137,53 @@
 
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('search-input');
+        const tableBody = document.querySelector('#submissions-table');
+
+        searchInput.addEventListener('keyup', function() {
+            const term = this.value.toLowerCase();
+            const rows = tableBody.querySelectorAll('tr');
+
+            rows.forEach(row => {
+                if (row.querySelector('th')) return;
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(term) ? '' : 'none';
+            });
+
+            const visibleRows = Array.from(rows).filter(r => r.style.display !== 'none' && !r.querySelector('th'));
+            if (visibleRows.length === 0 && term) {
+                tableBody.innerHTML = `<tr>
+                    <td colspan="100" class="text-center text-light py-4">No results for "${term}"</td>
+                </tr>`;
+            }
+        });
+
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.page-link') && !e.target.closest('.page-item.disabled')) {
+                e.preventDefault();
+                const page = new URL(e.target.closest('.page-link').href).searchParams.get('page');
+                loadPage(page);
+            }
+        });
+
+        function loadPage(page) {
+            const url = new URL(window.location.href);
+            url.searchParams.set('page', page);
+
+            fetch(url, {
+                headers: {'X-Requested-With': 'XMLHttpRequest'}
+            })
+            .then(response => response.json())
+            .then(data => {
+                tableBody.innerHTML = data.submissions;
+                document.querySelector('.pagination-container').innerHTML = data.pagination;
+                searchInput.dispatchEvent(new Event('keyup'));
+            });
+        }
+    });
+</script>
 
 @endsection

@@ -23,7 +23,7 @@ class UpdateFieldRequest extends FormRequest
     {
         return [
             'label' => 'required|string|max:255',
-            'type' => 'required|string|in:text,number,email,date',
+            'type' => 'required|string|in:text,number,email,date,time,textarea',
         ];
     }
 }

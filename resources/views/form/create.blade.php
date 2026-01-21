@@ -117,6 +117,10 @@
                     <div id="fields-container"></div>
 
                     <div class="text-end mt-4">
+                        <button type="button" class="btn btn-secondary me-2"
+                            onclick="window.location='{{ route('forms.index') }}'">
+                            Cancel
+                        </button>
                         <button type="submit" class="btn btn-gradient px-4">
                             🚀 Create Form
                         </button>
@@ -162,6 +166,8 @@
                             <option value="number" ${fieldData.type === 'number' ? 'selected' : ''}>Number</option>
                             <option value="email" ${fieldData.type === 'email' ? 'selected' : ''}>Email</option>
                             <option value="date" ${fieldData.type === 'date' ? 'selected' : ''}>Date</option>
+                            <option value="time" ${fieldData.type === 'time' ? 'selected' : ''}>Time</option>
+                            <option value="textarea" ${fieldData.type === 'textarea' ? 'selected' : ''}>Textarea</option>
                         </select>
                     </div>
 

@@ -38,7 +38,7 @@
     .form-select:focus {
         border-color: #38bdf8;
         box-shadow: 0 0 0 0.2rem rgba(56, 189, 248, .35);
-        color: #fff;
+        color: black;
     }
 
     .field-item {
@@ -115,6 +115,10 @@
 
                     <!-- Submit -->
                     <div class="text-end mt-4">
+                        <button type="button" class="btn btn-secondary me-2"
+                            onclick="window.location='{{ route('forms.index') }}'">
+                            Cancel
+                        </button>
                         <button type="submit" class="btn btn-gradient px-4">
                             💾 Update Form
                         </button>
@@ -169,6 +173,8 @@ function addField(fieldData = {}, index, errors = {}) {
                         <option value="number" ${fieldData.type === 'number' ? 'selected' : ''}>Number</option>
                         <option value="email" ${fieldData.type === 'email' ? 'selected' : ''}>Email</option>
                         <option value="date" ${fieldData.type === 'date' ? 'selected' : ''}>Date</option>
+                        <option value="time" ${fieldData.type === 'time' ? 'selected' : ''}>Time</option>
+                        <option value="textarea" ${fieldData.type === 'textarea' ? 'selected' : ''}>Textarea</option>
                     </select>
                 </div>
 

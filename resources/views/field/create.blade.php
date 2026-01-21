@@ -23,6 +23,8 @@
                             <option value="number">Number</option>
                             <option value="email">Email</option>
                             <option value="date">Date</option>
+                            <option value="time">Time</option>
+                            <option value="textarea">Textarea</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Create Field</button>

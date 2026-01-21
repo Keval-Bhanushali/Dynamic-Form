@@ -25,6 +25,9 @@
                             <option value="number" {{ $field->type == 'number' ? 'selected' : '' }}>Number</option>
                             <option value="email" {{ $field->type == 'email' ? 'selected' : '' }}>Email</option>
                             <option value="date" {{ $field->type == 'date' ? 'selected' : '' }}>Date</option>
+                            <option value="time" {{ $field->type == 'time' ? 'selected' : '' }}>Time</option>
+                            <option value="textarea" {{ $field->type == 'textarea' ? 'selected' : '' }}>Textarea
+                            </option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Update Field</button>

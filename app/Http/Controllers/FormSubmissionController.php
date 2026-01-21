@@ -13,15 +13,28 @@ class FormSubmissionController extends Controller
      */
     public function index()
     {
-        return view('submission.index', ['submissions' => Formsubmission::with('form')->get()]);
+        $submissions = Formsubmission::with('form')->paginate(10);
+
+        if (request()->ajax()) {
+            return response()->json([
+                'html' => view('submission.partials.submissions-table', compact('submissions'))->render(),
+                'pagination' => $submissions->links('pagination::bootstrap-5')->toHtml(),
+                'hasMorePages' => $submissions->hasMorePages(),
+                'current_page' => $submissions->currentPage(),
+                'per_page' => $submissions->perPage(),
+                'total' => $submissions->total()
+            ]);
+        }
+
+        return view('submission.index', ['submissions' => $submissions]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Form $form)
     {
-        //
+        return view('submission.create', compact('form'));
     }
 
     /**

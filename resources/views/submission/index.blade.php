@@ -17,54 +17,62 @@
                             <th>Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @forelse($submissions as $submission)
-                        <tr>
-                            <td>{{ $submission->form->name }}</td>
-                            <td>
-                                <pre style="white-space: pre-wrap; word-wrap: break-word;">
-                                    {{ json_encode(json_decode($submission->data), JSON_PRETTY_PRINT) }}
-                                </pre>
-                            </td>
-                            <td>{{ $submission->created_at->format('Y-m-d H:i') }}</td>
-                            <td>
-                                <a href="{{ route('submissions.show', $submission) }}" class="btn btn-sm btn-info">
-                                    <i class="bi bi-eye-fill"></i> View
-                                </a>
-                                <a href="{{ route('submissions.edit', $submission) }}" class="btn btn-sm btn-warning">
-                                    <i class="bi bi-pencil-fill"></i> Edit
-                                </a>
-                                <form action="{{ route('submissions.destroy', $submission) }}" method="POST"
-                                    style="display: inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-danger"
-                                        onclick="return confirm('Are you sure?')">
-                                        <i class="bi bi-trash-fill"></i> Delete
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="4" class="text-center text-muted">No submissions found.</td>
-                        </tr>
-                        @endforelse
+                    <tbody id="submissionsContainer">
+                        @include('submission.partials.submissions-table')
                     </tbody>
                 </table>
 
                 <!-- Pagination (if needed) -->
                 @if($submissions instanceof \Illuminate\Pagination\LengthAwarePaginator)
-                <div class="d-flex justify-content-between align-items-center mt-4">
+                <div class="d-flex justify-content-between align-items-center mt-4" id="paginationContainer">
                     <div class="text-muted small">
                         Showing {{ $submissions->firstItem() }} to {{ $submissions->lastItem() }} of {{
                         $submissions->total() }} submissions
                     </div>
-                    <div>
+                    <div id="paginationLinks">
                         {{ $submissions->links('pagination::bootstrap-5') }}
                     </div>
                 </div>
                 @endif
+
+                <script>
+                    $(document).ready(function() {
+    // Function to bind pagination events
+    function bindPaginationEvents() {
+        $('#paginationContainer a').off('click').on('click', function(e) {
+            e.preventDefault();
+            const url = $(this).attr('href');
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                success: function(response) {
+                    $('#submissionsContainer').html(response.html);
+                    $('#paginationLinks').html(response.pagination);
+                    // Update showing text
+                    const showingText = 'Showing ' + (response.current_page * response.per_page - response.per_page + 1) +
+                                      ' to ' + Math.min(response.current_page * response.per_page, response.total) +
+                                      ' of ' + response.total + ' submissions';
+                    $('#paginationContainer .text-muted').text(showingText);
+                    // Rebind events after content update
+                    bindPaginationEvents();
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Error:', status, error);
+                    // Fallback to normal navigation
+                    window.location.href = url;
+                }
+            });
+        });
+    }
+
+    // Bind events initially
+    bindPaginationEvents();
+});
+                </script>
             </div>
         </div>
     </div>

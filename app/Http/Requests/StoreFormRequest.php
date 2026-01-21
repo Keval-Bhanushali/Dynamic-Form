@@ -24,9 +24,9 @@ class StoreFormRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'fields' => 'nullable|array',
+            'fields' => 'required|array|min:1',
             'fields.*.label' => 'required|string|max:255',
-            'fields.*.type' => 'required|string|in:text,number,email,date',
+            'fields.*.type' => 'required|string|in:text,number,email,date,time,textarea',
             'fields.*.is_required' => 'required|boolean',
         ];
     }

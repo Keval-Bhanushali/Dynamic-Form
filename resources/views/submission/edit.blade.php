@@ -18,7 +18,6 @@
                     @foreach($submission->form->fields as $field)
                     <div class="mb-3">
                         <label for="field_{{ $field->id }}" class="form-label">{{ $field->label }}
-                            <span class="text-danger">*</span>
                             @if($field->pivot->is_required)<span class="text-danger">*</span>@endif</label>
 
                         @switch($field->type)
@@ -45,6 +44,17 @@
                             id="field_{{ $field->id }}" name="data[{{ $field->id }}]"
                             value="{{ old('data.' . $field->id, $data[$field->label] ?? '') }}" {{
                             $field->pivot->is_required ? 'required' : '' }}>
+                        @break
+                        @case('time')
+                        <input type="time" class="form-control @error('data.' . $field->id) is-invalid @enderror"
+                            id="field_{{ $field->id }}" name="data[{{ $field->id }}]"
+                            value="{{ old('data.' . $field->id, $data[$field->label] ?? '') }}" {{
+                            $field->pivot->is_required ? 'required' : '' }}>
+                        @break
+                        @case('textarea')
+                        <textarea class="form-control @error('data.' . $field->id) is-invalid @enderror" id="field_{{ $field->id }}"
+                            name="data[{{ $field->id }}]" rows="4" {{
+                            $field->pivot->is_required ? 'required' : '' }}>{{ old('data.' . $field->id, $data[$field->label] ?? '') }}</textarea>
                         @break
                         @endswitch
 

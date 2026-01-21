@@ -12,14 +12,28 @@
         transform: translateY(-4px);
         box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.15) !important;
     }
+
+    .recent-forms .list-group-item {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        transition: background 0.3s ease;
+    }
+
+    .recent-forms .list-group-item:hover {
+        background: rgba(0, 123, 255, 0.1);
+    }
 </style>
+
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
+            <!-- Header -->
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h1 class="h2 mb-0">Dashboard</h1>
             </div>
-            <div class="row g-4">
+
+            <!-- Stats Cards -->
+            <div class="row g-4 mb-5">
                 <div class="col-md-4 col-lg-3">
                     <div class="card border-0 shadow-sm h-100 text-white bg-primary bg-gradient">
                         <div class="card-header bg-transparent pb-0">
@@ -37,20 +51,39 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-lg-3">
-                    <div class="card border-0 shadow-sm h-100 text-white bg-info bg-gradient">
-                        <div class="card-header bg-transparent pb-0">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="card-title mb-0">Submissions</h5>
-                                <i class="bi bi-check-circle fs-2 opacity-75"></i>
-                            </div>
+            </div>
+
+            <!-- Recent Forms Section -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card border-0 shadow-sm recent-forms">
+                        <div class="card-header bg-transparent">
+                            <h5 class="card-title mb-0">Recent Forms</h5>
                         </div>
-                        <div class="card-body d-flex flex-column justify-content-center text-center">
-                            <h2 class="display-4 mb-1">{{ \App\Models\Formsubmission::count() ?? 0 }}</h2>
-                            <p class="card-text mb-0">total submissions</p>
+                        <div class="card-body p-0">
+                            <ul class="list-group list-group-flush">
+                                @forelse(\App\Models\Form::latest()->take(5)->get() as $form)
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>{{ $form->name ?? 'Unnamed Form' }}</strong>
+                                        <br>
+                                        <small class="text-muted">Created {{ $form->created_at->diffForHumans()
+                                            }}</small>
+                                    </div>
+                                    <a href="{{ route('forms.show', $form->id) }}"
+                                        class="btn btn-outline-primary btn-sm">
+                                        <i class="bi bi-eye"></i> View
+                                    </a>
+                                </li>
+                                @empty
+                                <li class="list-group-item text-center text-muted">
+                                    No forms created yet.
+                                </li>
+                                @endforelse
+                            </ul>
                         </div>
-                        <div class="card-footer bg-transparent pt-0">
-                            <a href="{{ route('submissions.index') }}" class="btn btn-light btn-sm w-100">View All</a>
+                        <div class="card-footer bg-transparent text-center">
+                            <a href="{{ route('forms.index') }}" class="btn btn-primary">View All Forms</a>
                         </div>
                     </div>
                 </div>
