@@ -19,14 +19,10 @@
         <a href="{{ route('submissions.edit', $submission) }}" class="btn btn-outline-warning btn-sm">
             <i class="bi bi-pencil"></i>
         </a>
-        <form action="{{ route('submissions.destroy', $submission) }}" method="POST" class="d-inline"
-            onsubmit="return confirm('Are you sure?')">
-            @csrf
-            @method('DELETE')
-            <button class="btn btn-outline-danger btn-sm">
-                <i class="bi bi-trash"></i>
-            </button>
-        </form>
+        <button class="btn btn-outline-danger btn-sm delete-submission" data-submission-id="{{ $submission->id }}"
+            data-csrf="{{ csrf_token() }}">
+            <i class="bi bi-trash"></i>
+        </button>
     </td>
 </tr>
 @endforeach

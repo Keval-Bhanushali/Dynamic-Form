@@ -66,15 +66,15 @@ class FormController extends Controller
      */
     public function show(Form $form)
     {
-        $searchTerm = request('search', '');
+        $searchTerm = request()->query('search', '');
 
         $submissions = $form->submissions()
             ->when($searchTerm, function ($query) use ($searchTerm) {
-                return $query->where('submission_text', 'like', '%'.$searchTerm.'%');
+                $query->where('data', 'like', '%' . $searchTerm . '%');
             })
             ->paginate(10);
 
-        if (request()->ajax()) {
+        if (request()->ajax() || request()->wantsJson()) {
             return response()->json([
                 'submissions' => view('form.partials.submission-rows', compact('form', 'submissions'))->render(),
                 'pagination' => $submissions->links('pagination::bootstrap-5')->toHtml(),

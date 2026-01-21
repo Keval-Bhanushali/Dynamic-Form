@@ -22,7 +22,7 @@ class FormSubmissionController extends Controller
                 'hasMorePages' => $submissions->hasMorePages(),
                 'current_page' => $submissions->currentPage(),
                 'per_page' => $submissions->perPage(),
-                'total' => $submissions->total()
+                'total' => $submissions->total(),
             ]);
         }
 
@@ -95,7 +95,7 @@ class FormSubmissionController extends Controller
 
         $submission->update(['data' => json_encode($data)]);
 
-        return redirect()->route('submissions.show', $submission)->with('success', 'Submission updated successfully!');
+        return redirect()->route('forms.show', $submission->form)->with('success', 'Submission updated successfully!');
     }
 
     /**
@@ -105,6 +105,15 @@ class FormSubmissionController extends Controller
     {
         $submission->delete();
 
-        return redirect()->route('forms.show', $submission->form)->with('success', 'Submission deleted successfully!');
+        if (request()->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Submission deleted successfully.',
+            ]);
+        }
+
+        return redirect()
+            ->back()
+            ->with('success', 'Submission deleted successfully.');
     }
 }

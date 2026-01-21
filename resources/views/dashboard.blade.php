@@ -35,7 +35,7 @@
             <!-- Stats Cards -->
             <div class="row g-4 mb-5">
                 <div class="col-md-4 col-lg-3">
-                    <div class="card border-0 shadow-sm h-100 text-white bg-primary bg-gradient">
+                    <div class="card border-0 shadow-sm h-100 text-white bg-transparent bg-gradient">
                         <div class="card-header bg-transparent pb-0">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h5 class="card-title mb-0">Forms</h5>

@@ -139,41 +139,92 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    $(document).ready(function() {
     $('#search-input').on('input', function() {
         const query = $(this).val().toLowerCase();
-
-        $('#submissions-table tr').each(function() {
-            const rowText = $(this).text().toLowerCase();
-            if (rowText.indexOf(query) !== -1) {
-                $(this).show();
-            } else {
-                $(this).hide();
+        // server side search
+        $.ajax({
+            url: '{{ route('forms.show', $form) }}',
+            type: 'GET',
+            data: {
+                search: query
+            },
+            dataType: 'json',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            success: function(response) {
+                $('#submissions-table').html(response.submissions);
+                $('.pagination-container').html(response.pagination);
             }
         });
     });
 
-    <!-- Pagination via AJAX -->
     function bindPaginationEvents() {
-        $(document).on('click', '.page-link', function(e) {
+        $('.pagination-container a').off('click').on('click', function(e) {
             e.preventDefault();
-            const page = new URL(this.href).searchParams.get('page');
-            loadPage(page);
+            const url = $(this).attr('href');
+            const query = $('#search-input').val().toLowerCase();
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                success: function(response) {
+                    $('#submissions-table').html(response.submissions);
+                    $('.pagination-container').html(response.pagination);
+
+                    $('#submissions-table tr').each(function() {
+                        const rowText = $(this).text().toLowerCase();
+                        if (rowText.indexOf(query) !== -1) {
+                            $(this).show();
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+
+                    bindPaginationEvents();
+                }
+            });
         });
     }
-
-    function loadPage(page) {
-        const url = new URL(window.location.href);
-        url.searchParams.set('page', page);
-
-        $.get(url, function(data) {
-            $('#submissions-table').html(data.submissions);
-            $('.pagination-container').html(data.pagination);
-            bindPaginationEvents();
-        });
-    }
-
     bindPaginationEvents();
+
+    $(document).on('click', '.delete-submission', function (e) {
+    e.preventDefault();
+    
+    const $btn = $(this);
+    const submissionId = $btn.data('submission-id');
+    const csrfToken = $btn.data('csrf');
+    
+    if (!confirm('Are you sure you want to delete this submission?')) {
+    return;
+    }
+    
+    $.ajax({
+    url: '/submissions/' + submissionId, 
+    type: 'POST',
+    data: {
+    _method: 'DELETE',
+    _token: csrfToken,
+    },
+    success: function (response) {
+    if (response.success) {
+    $btn.closest('tr').fadeOut(200, function () {
+    $(this).remove();
+    });
+    } else {
+    alert(response.message || 'Failed to delete submission.');
+    }
+    },
+    error: function () {
+    alert('An error occurred while deleting the submission.');
+    },
+    });
+    });
 });
 </script>
 

@@ -258,7 +258,7 @@
                         </a></li>
                 </ul>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link" href="#">
                     <i class="bi bi-people"></i> Users
                 </a>
@@ -277,7 +277,7 @@
                 <a class="nav-link" href="#">
                     <i class="bi bi-box-arrow-right"></i> Logout
                 </a>
-            </li>
+            </li> --}}
         </ul>
     </nav>
 
