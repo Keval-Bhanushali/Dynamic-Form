@@ -92,7 +92,7 @@
             </div>
 
             <div class="card-body p-3">
-                <div class="d-flex justify-content-between mb-3">
+                <div class="d-flex justify-content-between mb-3 text-light">
                     <div class="w-50">
                         <input type="text" id="search-input" class="form-control form-control-lg"
                             placeholder="Search submissions...">
@@ -137,53 +137,44 @@
 
     </div>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('search-input');
-        const tableBody = document.querySelector('#submissions-table');
+    $('#search-input').on('input', function() {
+        const query = $(this).val().toLowerCase();
 
-        searchInput.addEventListener('keyup', function() {
-            const term = this.value.toLowerCase();
-            const rows = tableBody.querySelectorAll('tr');
-
-            rows.forEach(row => {
-                if (row.querySelector('th')) return;
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(term) ? '' : 'none';
-            });
-
-            const visibleRows = Array.from(rows).filter(r => r.style.display !== 'none' && !r.querySelector('th'));
-            if (visibleRows.length === 0 && term) {
-                tableBody.innerHTML = `<tr>
-                    <td colspan="100" class="text-center text-light py-4">No results for "${term}"</td>
-                </tr>`;
+        $('#submissions-table tr').each(function() {
+            const rowText = $(this).text().toLowerCase();
+            if (rowText.indexOf(query) !== -1) {
+                $(this).show();
+            } else {
+                $(this).hide();
             }
         });
-
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.page-link') && !e.target.closest('.page-item.disabled')) {
-                e.preventDefault();
-                const page = new URL(e.target.closest('.page-link').href).searchParams.get('page');
-                loadPage(page);
-            }
-        });
-
-        function loadPage(page) {
-            const url = new URL(window.location.href);
-            url.searchParams.set('page', page);
-
-            fetch(url, {
-                headers: {'X-Requested-With': 'XMLHttpRequest'}
-            })
-            .then(response => response.json())
-            .then(data => {
-                tableBody.innerHTML = data.submissions;
-                document.querySelector('.pagination-container').innerHTML = data.pagination;
-                searchInput.dispatchEvent(new Event('keyup'));
-            });
-        }
     });
+
+    <!-- Pagination via AJAX -->
+    function bindPaginationEvents() {
+        $(document).on('click', '.page-link', function(e) {
+            e.preventDefault();
+            const page = new URL(this.href).searchParams.get('page');
+            loadPage(page);
+        });
+    }
+
+    function loadPage(page) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('page', page);
+
+        $.get(url, function(data) {
+            $('#submissions-table').html(data.submissions);
+            $('.pagination-container').html(data.pagination);
+            bindPaginationEvents();
+        });
+    }
+
+    bindPaginationEvents();
+});
 </script>
 
 @endsection
