@@ -24,7 +24,7 @@
 
                         // Format Date fields (if applicable)
                         if ($field->type == 'date' && $value !== 'N/A') {
-                        $value = \Carbon\Carbon::parse($value)->format('Y-m-d');
+                        $value = \Carbon\Carbon::parse($value)->format('m-d-Y');
                         }
                         @endphp
                         <span class="badge bg-secondary p-2">{{ $value }}</span>

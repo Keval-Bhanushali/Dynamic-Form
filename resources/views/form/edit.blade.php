@@ -82,7 +82,9 @@
 
                     <!-- Form Name -->
                     <div class="mb-4">
-                        <label class="form-label">Form Name</label>
+                        <label class="form-label">Form Name
+                            <span class="text-danger">*</span>
+                        </label>
                         <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
                             value="{{ old('name', $form->name) }}" required>
                         @error('name')
@@ -144,7 +146,9 @@ function addField(fieldData = {}, index, errors = {}) {
             <div class="row g-3 align-items-end">
 
                 <div class="col-md-4">
-                    <label class="form-label">Field Label</label>
+                    <label class="form-label">Field Label
+                        <span class='text-danger'>*</span>
+                        </label>
                     <input type="text"
                            class="form-control ${errors['fields.' + index + '.label'] ? 'is-invalid' : ''}"
                            name="fields[${index}][label]"
@@ -155,7 +159,9 @@ function addField(fieldData = {}, index, errors = {}) {
                 </div>
 
                 <div class="col-md-3">
-                    <label class="form-label">Field Type</label>
+                    <label class="form-label">Field Type
+                        <span class="text-danger">*</span>
+                        </label>
                     <select class="form-select ${errors['fields.' + index + '.type'] ? 'is-invalid' : ''}"
                             name="fields[${index}][type]"
                             required>

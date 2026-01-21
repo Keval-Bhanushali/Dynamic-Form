@@ -18,6 +18,7 @@
                     @foreach($submission->form->fields as $field)
                     <div class="mb-3">
                         <label for="field_{{ $field->id }}" class="form-label">{{ $field->label }}
+                            <span class="text-danger">*</span>
                             @if($field->pivot->is_required)<span class="text-danger">*</span>@endif</label>
 
                         @switch($field->type)
