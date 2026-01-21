@@ -5,73 +5,107 @@
 @section('content')
 
 <style>
-    body {
-        background-color: #020617;
+    :root {
+        --primary-gradient: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        --secondary-gradient: linear-gradient(135deg, #6366f1, #22d3ee);
+        --card-hover-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.1);
+        --border-light: rgba(0, 0, 0, 0.08);
     }
 
     .page-header {
-        background: linear-gradient(135deg, #1e293b, #020617);
-        border-radius: 16px;
-        padding: 24px;
-        border: 1px solid #1e293b;
+        background: rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(10px);
+        border-radius: 24px;
+        padding: 2rem;
+        border: 1px solid var(--border-light);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     }
 
-    .card-dark {
-        background: linear-gradient(145deg, #020617, #020617);
-        border: 1px solid #1e293b;
-        border-radius: 16px;
+    .card-light {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--border-light);
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     }
 
     .form-row-hover {
         transition: all 0.35s ease;
+        border-radius: 12px;
+        margin-bottom: 0.5rem;
     }
 
     .form-row-hover:hover {
-        background: rgba(99, 102, 241, 0.12);
-        border-left: 4px solid #6366f1;
+        background: rgba(59, 130, 246, 0.08);
+        border-left: 4px solid #3b82f6;
         transform: translateX(6px);
+        box-shadow: var(--card-hover-shadow);
     }
 
-    .badge-dark-info {
-        background: rgba(56, 189, 248, 0.15);
-        color: #38bdf8;
+    .badge-light-info {
+        background: rgba(56, 189, 248, 0.12);
+        color: #0ea5e9;
+        border: 1px solid rgba(56, 189, 248, 0.2);
     }
 
-    .badge-dark-success {
-        background: rgba(34, 197, 94, 0.15);
-        color: #22c55e;
+    .badge-light-success {
+        background: rgba(34, 197, 94, 0.12);
+        color: #059669;
+        border: 1px solid rgba(34, 197, 94, 0.2);
+    }
+
+    .badge-light-warning {
+        background: rgba(251, 191, 36, 0.12);
+        color: #d97706;
+        border: 1px solid rgba(251, 191, 36, 0.2);
     }
 
     .icon-circle {
-        background: rgba(99, 102, 241, 0.15);
+        background: rgba(59, 130, 246, 0.15);
         padding: 14px;
         border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .btn-gradient {
-        background: linear-gradient(135deg, #6366f1, #22d3ee);
+        background: var(--secondary-gradient);
         border: none;
         color: #fff;
+        border-radius: 12px;
+        font-weight: 500;
+        box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
     }
 
     .btn-gradient:hover {
-        opacity: 0.9;
+        opacity: 0.95;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
     }
 
     .btn-outline-info,
     .btn-outline-warning,
     .btn-outline-danger {
-        border-radius: 8px;
+        border-radius: 10px;
+        font-weight: 500;
     }
 
     .text-muted {
-        color: #94a3b8 !important;
+        color: #64748b !important;
     }
 
     .empty-state {
-        background: linear-gradient(145deg, #020617, #020617);
-        border-radius: 16px;
-        border: 1px dashed #1e293b;
+        background: rgba(255, 255, 255, 0.6);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        border: 2px dashed #cbd5e1;
+        min-height: 300px;
+    }
+
+    .stats-badge {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
     }
 </style>
 
@@ -79,14 +113,16 @@
 <div class="page-header mb-5">
     <div class="row align-items-center">
         <div class="col-md-6 d-flex align-items-center">
-            <i class="bi bi-file-earmark-text-fill fs-1 text-primary me-3"></i>
+            <div class="icon-circle text-primary me-3">
+                <i class="bi bi-file-earmark-text-fill fs-2"></i>
+            </div>
             <div>
-                <h1 class="h3 mb-1 fw-bold text-light">Forms Management</h1>
-                <small class="text-muted">Manage your dynamic forms</small>
+                <h1 class="h3 mb-1 fw-bold text-dark">Forms Management</h1>
+                <p class="mb-0 text-muted fs-6">Manage all your dynamic forms and submissions</p>
             </div>
         </div>
         <div class="col-md-6 text-md-end mt-3 mt-md-0">
-            <a href="{{ route('forms.create') }}" class="btn btn-gradient btn-lg px-4 shadow">
+            <a href="{{ route('forms.create') }}" class="btn btn-gradient btn-lg px-5">
                 <i class="bi bi-plus-circle me-2"></i>Create New Form
             </a>
         </div>
@@ -94,11 +130,13 @@
 </div>
 
 <!-- Forms List -->
-<div class="card card-dark shadow-lg overflow-hidden">
-    <div class="card-header bg-transparent py-4 border-bottom border-light border-opacity-10">
-        <h5 class="mb-0 fw-bold text-light">
-            <i class="bi bi-table me-2"></i>All Forms
-        </h5>
+<div class="card card-light shadow-lg overflow-hidden">
+    <div class="card-header bg-transparent py-4 border-bottom" style="border-color: var(--border-light);">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0 fw-bold text-dark">
+                <i class="bi bi-table me-2 text-primary"></i>All Forms ({{ $forms->total() ?? 0 }})
+            </h5>
+        </div>
     </div>
 
     <div class="card-body p-0" id="formsContainer">
@@ -107,7 +145,8 @@
 </div>
 
 @if(isset($forms) && $forms->hasPages())
-<div class="d-flex justify-content-between align-items-center mt-5 pt-4 border-top border-light border-opacity-10">
+<div class="d-flex justify-content-between align-items-center mt-5 pt-4"
+    style="border-top: 1px solid var(--border-light);">
     <div class="text-muted small">
         Showing {{ $forms->firstItem() }} to {{ $forms->lastItem() }} of {{ $forms->total() }} forms
     </div>
@@ -121,11 +160,17 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-    // Pure JavaScript - NO jQuery needed
     const formsContainer = document.getElementById('formsContainer');
     const paginationLinks = document.getElementById('paginationLinks');
     
-    // Use event delegation for pagination
+    // Forms per page selector
+    document.getElementById('formsPerPage').addEventListener('change', function() {
+        const url = new URL(window.location.href);
+        url.searchParams.set('per_page', this.value);
+        window.location.href = url.toString();
+    });
+    
+    // Enhanced AJAX pagination
     document.addEventListener('click', function(e) {
         if (e.target.closest('.pagination a.page-link')) {
             e.preventDefault();
@@ -135,17 +180,16 @@
             
             if (!url || url.includes('#')) return;
             
-            // Show loading
+            // Show loading state
             formsContainer.innerHTML = `
                 <div class="text-center py-5">
-                    <div class="spinner-border text-primary fs-1" role="status">
+                    <div class="spinner-border text-primary fs-3" role="status" style="width: 3rem; height: 3rem;">
                         <span class="visually-hidden">Loading...</span>
                     </div>
                     <div class="mt-3 text-muted">Loading forms...</div>
                 </div>
             `;
             
-            // Fetch new content
             fetch(url, {
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest',
@@ -156,7 +200,9 @@
             .then(response => response.json())
             .then(data => {
                 formsContainer.innerHTML = data.html;
-                paginationLinks.innerHTML = data.pagination;
+                if (paginationLinks) {
+                    paginationLinks.innerHTML = data.pagination;
+                }
                 
                 // Update counter
                 const counter = document.querySelector('.text-muted.small');
@@ -166,17 +212,11 @@
             })
             .catch(error => {
                 console.error('AJAX Error:', error);
-                window.location.href = url; // Fallback
+                window.location.href = url;
             });
         }
     });
 });
 </script>
-
-<!-- ADD THIS to <head> -->
-<meta name="csrf-token" content="{{ csrf_token() }}">
-
-<!-- Add CSRF meta tag in <head> of your layout -->
-<meta name="csrf-token" content="{{ csrf_token() }}">
 
 @endsection

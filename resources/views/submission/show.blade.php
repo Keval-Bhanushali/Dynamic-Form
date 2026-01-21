@@ -5,18 +5,18 @@
 @section('content')
 <div class="row justify-content-center">
     <div class="col-md-8">
-        <div class="card shadow-lg border-0 mb-4">
-            <div class="card-header bg-primary text-white">
+        <div class="card light-card shadow-lg border-0 mb-4">
+            <div class="card-header light-header">
                 <h3 class="mb-0">Submission for {{ $submission->form->name }}</h3>
             </div>
-            <div class="card-body bg-dark text-light">
+            <div class="card-body">
                 <dl class="row">
                     @php
                     $data = json_decode($submission->data, true);
                     @endphp
 
                     @foreach($submission->form->fields as $field)
-                    <dt class="col-sm-4 fw-bold">{{ $field->label }}</dt>
+                    <dt class="col-sm-4 fw-bold text-dark">{{ $field->label }}</dt>
                     <dd class="col-sm-8">
                         @php
                         // Handle missing or null data
@@ -27,7 +27,7 @@
                         $value = \Carbon\Carbon::parse($value)->format('m-d-Y');
                         }
                         @endphp
-                        <span class="badge bg-secondary p-2">{{ $value }}</span>
+                        <span class="badge bg-light text-dark p-2">{{ $value }}</span>
                     </dd>
                     @endforeach
                 </dl>
@@ -39,14 +39,14 @@
                 <i class="bi bi-arrow-left-circle me-2"></i>Back to Form
             </a>
             <div>
-                <a href="{{ route('submissions.edit', $submission) }}" class="btn btn-warning btn-lg me-2">
+                <a href="{{ route('submissions.edit', $submission) }}" class="btn btn-outline-warning btn-lg me-2">
                     <i class="bi bi-pencil-fill me-2"></i>Edit
                 </a>
 
                 <form action="{{ route('submissions.destroy', $submission) }}" method="POST" style="display: inline;">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger btn-lg"
+                    <button type="submit" class="btn btn-outline-danger btn-lg"
                         onclick="return confirm('Are you sure you want to delete this submission?')">
                         <i class="bi bi-trash-fill me-2"></i>Delete
                     </button>

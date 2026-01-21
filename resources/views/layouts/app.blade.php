@@ -13,18 +13,20 @@
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            --glass-bg: rgba(15, 23, 42, 0.95);
-            --alert-success-bg: rgba(34, 197, 94, 0.2);
-            --alert-error-bg: rgba(239, 68, 68, 0.2);
-            --alert-border: 1px solid rgba(148, 163, 184, 0.2);
-            --sidebar-bg: rgba(15, 23, 42, 0.9);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --alert-success-bg: rgba(34, 197, 94, 0.1);
+            --alert-error-bg: rgba(239, 68, 68, 0.1);
+            --alert-border: 1px solid rgba(0, 0, 0, 0.1);
+            --sidebar-bg: rgba(255, 255, 255, 0.98);
             --sidebar-width: 280px;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
         }
 
         body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             min-height: 100vh;
-            color: #f8fafc;
+            color: var(--text-primary);
             font-family: 'Roboto', sans-serif;
             margin: 0;
             overflow-x: hidden;
@@ -38,8 +40,8 @@
             height: 100vh;
             background: var(--sidebar-bg);
             backdrop-filter: blur(10px);
-            border-right: 1px solid var(--alert-border);
-            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+            border-right: var(--alert-border);
+            box-shadow: 2px 0 20px rgba(0, 0, 0, 0.08);
             z-index: 1000;
             transition: transform 0.3s ease;
             overflow-y: auto;
@@ -51,13 +53,13 @@
 
         .sidebar-header {
             padding: 1.5rem;
-            border-bottom: 1px solid var(--alert-border);
+            border-bottom: var(--alert-border);
             text-align: center;
         }
 
         .sidebar-header h4 {
             margin: 0;
-            color: #f8fafc;
+            color: var(--text-primary);
             font-weight: 600;
         }
 
@@ -70,7 +72,7 @@
         }
 
         .sidebar-nav .nav-link {
-            color: #cbd5e1;
+            color: var(--text-secondary);
             padding: 0.75rem 1.5rem;
             display: flex;
             align-items: center;
@@ -103,11 +105,11 @@
         }
 
         .content-wrapper {
-            background: rgba(15, 23, 42, 0.7);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
             border-radius: 24px;
-            border: 1px solid var(--alert-border);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            border: var(--alert-border);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
             padding: 2.5rem;
             margin: 2rem auto;
             max-width: 1400px;
@@ -121,14 +123,14 @@
 
         .alert-success {
             background: var(--alert-success-bg);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            color: #34D399;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            color: #059669;
         }
 
         .alert-danger {
             background: var(--alert-error-bg);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #F87171;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #dc2626;
         }
 
         .alert i {
@@ -136,11 +138,12 @@
         }
 
         .alert .alert-text {
-            color: #F8FAFC;
+            color: var(--text-primary);
         }
 
         .btn-close-white {
-            opacity: 0.8;
+            opacity: 0.6;
+            filter: invert(0.5);
         }
 
         .toggle-btn {
@@ -165,29 +168,25 @@
             transform: scale(1.1);
         }
 
-        /* Faster dropdown animation */
         .dropdown-menu {
             animation-duration: 0.2s !important;
-            /* Reduce from default ~0.3s */
             transition: opacity 0.2s ease, transform 0.2s ease !important;
         }
 
-        /* Position dropdown to expand to the right (avoiding sidebar overflow) */
         .sidebar .dropdown-menu {
             position: absolute;
             left: 100%;
-            /* Expand to the right */
             top: 0;
             margin-left: 0.5rem;
             border-radius: 8px;
             background: var(--sidebar-bg);
             backdrop-filter: blur(10px);
-            border: 1px solid var(--alert-border);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            border: var(--alert-border);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .sidebar .dropdown-item {
-            color: #cbd5e1;
+            color: var(--text-secondary);
             padding: 0.5rem 1rem;
             transition: background 0.2s ease;
         }
@@ -258,26 +257,6 @@
                         </a></li>
                 </ul>
             </li>
-            {{-- <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-people"></i> Users
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-graph-up"></i> Analytics
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-gear"></i> Settings
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-box-arrow-right"></i> Logout
-                </a>
-            </li> --}}
         </ul>
     </nav>
 

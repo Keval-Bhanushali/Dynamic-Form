@@ -5,68 +5,84 @@
 @section('content')
 
 <style>
+    :root {
+        --primary-gradient: linear-gradient(135deg, #6366f1, #22d3ee);
+        --border-light: rgba(0, 0, 0, 0.08);
+        --glass-bg: rgba(255, 255, 255, 0.95);
+    }
+
     body {
-        background-color: #020617;
+        /* Removed dark background - uses layout */
     }
 
-    .card-dark {
-        background: linear-gradient(145deg, #020617, #020617);
-        border: 1px solid #1e293b;
+    .light-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(10px);
+        border: 1px solid var(--border-light);
         border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
 
-    .card-header-dark {
-        background: linear-gradient(135deg, #6366f1, #22d3ee);
+    .light-header {
+        background: var(--primary-gradient);
         color: #fff;
         border-radius: 16px 16px 0 0;
     }
 
     .form-label {
-        color: #c7d2fe;
+        color: #1e293b;
         font-weight: 500;
     }
 
     .form-control,
     .form-select {
-        background-color: #020617;
-        color: #e5e7eb;
-        border: 1px solid #1e293b;
+        background-color: #fff;
+        color: #1e293b;
+        border: 1px solid #d1d5db;
         border-radius: 10px;
     }
 
     .form-control:focus,
     .form-select:focus {
         border-color: #38bdf8;
-        box-shadow: 0 0 0 0.2rem rgba(56, 189, 248, .35);
-        color: black;
+        box-shadow: 0 0 0 0.2rem rgba(56, 189, 248, 0.35);
+        color: #1e293b;
     }
 
     .field-item {
-        background: #020617;
-        border: 1px solid #1e293b;
+        background: #fff;
+        border: 1px solid #e5e7eb;
         border-radius: 14px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     }
 
     .btn-gradient {
-        background: linear-gradient(135deg, #6366f1, #22d3ee);
+        background: var(--primary-gradient);
         border: none;
         color: #fff;
         border-radius: 10px;
     }
 
     .btn-gradient:hover {
-        opacity: .9;
+        opacity: 0.9;
+        color: #fff;
     }
 
     .btn-outline-danger {
+        border: 1px solid #ef4444;
+        color: #ef4444;
         border-radius: 10px;
     }
 
+    .btn-outline-danger:hover {
+        background-color: #ef4444;
+        color: #fff;
+    }
+
     .form-check-label {
-        color: #e5e7eb;
+        color: #374151;
     }
 </style>
-
 <div class="row justify-content-center">
     <div class="col-lg-9">
         <div class="card card-dark shadow-lg border-0">

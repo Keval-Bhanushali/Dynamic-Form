@@ -5,83 +5,163 @@
 @section('content')
 
 <style>
-    body {
-        background-color: #020617;
+    :root {
+    --primary-gradient: linear-gradient(135deg, #6366f1, #22d3ee);
+    --border-light: rgba(0, 0, 0, 0.08);
+    --glass-bg: rgba(255, 255, 255, 0.95);
     }
-
-    .dark-card {
-        background: linear-gradient(145deg, #020617, #020617);
-        border: 1px solid #1e293b;
-        border-radius: 16px;
+    
+    .light-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-light);
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
     }
-
-    .dark-header {
-        background: linear-gradient(135deg, #6366f1, #22d3ee);
-        color: #fff;
-        border-radius: 16px 16px 0 0;
+    
+    .light-header {
+    background: var(--primary-gradient);
+    color: #fff;
+    border-radius: 24px 24px 0 0;
+    position: relative;
+    overflow: hidden;
     }
-
+    
+    .light-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    }
+    
     .form-label {
-        color: #c7d2fe;
-        font-weight: 500;
+    color: #1e293b;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
     }
-
+    
     .form-control,
     .form-select {
-        background-color: #020617;
-        color: #e5e7eb;
-        border: 1px solid #1e293b;
-        border-radius: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #1e293b;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 0.875rem 1.25rem;
+    font-size: 0.95rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
+    
     .form-control:focus,
     .form-select:focus {
-        background-color: #020617;
-        border-color: #38bdf8;
-        box-shadow: 0 0 0 0.2rem rgba(56, 189, 248, 0.35);
-        color: #fff;
+    background: #fff;
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 0.25rem rgba(56, 189, 248, 0.15), 0 4px 12px rgba(56, 189, 248, 0.1);
+    color: #1e293b;
+    transform: translateY(-1px);
     }
-
+    
+    .form-control::placeholder {
+    color: #94a3b8;
+    }
+    
     .field-item {
-        background: linear-gradient(145deg, #020617, #020617);
-        border: 1px solid #1e293b;
-        border-radius: 14px;
-        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border: 2px solid #f1f5f9;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
+    
+    .field-item:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 16px 48px rgba(59, 130, 246, 0.15);
+    transform: translateY(-4px);
+    }
+    
     .btn-gradient {
-        background: linear-gradient(135deg, #6366f1, #22d3ee);
-        border: none;
-        color: #fff;
-        border-radius: 10px;
+    background: var(--primary-gradient);
+    border: none;
+    color: #fff;
+    border-radius: 12px;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-
+    
     .btn-gradient:hover {
-        opacity: 0.9;
+    opacity: 0.95;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(99, 102, 241, 0.4);
     }
-
+    
     .btn-outline-danger {
-        border-color: #ef4444;
-        color: #ef4444;
-        border-radius: 10px;
+    border: 2px solid #ef4444;
+    color: #ef4444;
+    border-radius: 12px;
+    font-weight: 500;
+    padding: 0.625rem 1.25rem;
+    transition: all 0.3s ease;
     }
-
+    
     .btn-outline-danger:hover {
-        background-color: #ef4444;
-        color: #fff;
+    background-color: #ef4444;
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
     }
-
+    
     .form-check-label {
-        color: #e5e7eb;
+    color: #374151;
+    font-weight: 500;
+    }
+    
+    .form-check-input:checked {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+    }
+    
+    .text-light {
+    color: #1e293b !important;
+    }
+    
+    /* Enhanced spacing and layout */
+    .field-item .row {
+    margin: 0 -0.75rem;
+    }
+    
+    .field-item .col-md-4,
+    .field-item .col-md-3,
+    .field-item .col-md-2 {
+    padding: 0 0.75rem;
+    }
+    
+    /* Form validation states */
+    .is-invalid {
+    border-color: #ef4444 !important;
+    box-shadow: 0 0 0 0.25rem rgba(239, 68, 68, 0.15) !important;
+    }
+    
+    .invalid-feedback {
+    display: block;
+    color: #ef4444;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
     }
 </style>
 
 <div class="row justify-content-center">
     <div class="col-lg-9">
-        <div class="card dark-card shadow-lg border-0">
-            <div class="card-header dark-header">
+        <div class="card light-card shadow-lg border-0">
+            <div class="card-header light-header p-4">
                 <h4 class="mb-0">✨ Create New Form</h4>
-                <small class="opacity-75">Build your form in dark mode</small>
+                <small class="opacity-75">Build your dynamic form</small>
             </div>
 
             <div class="card-body p-4">
@@ -108,7 +188,7 @@
 
                     <!-- Fields -->
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="text-light mb-0">🧩 Form Fields</h5>
+                        <h5 class="text-dark mb-0">🧩 Form Fields</h5>
                         <button type="button" id="add-field" class="btn btn-gradient btn-sm">
                             + Add Field
                         </button>
@@ -117,7 +197,7 @@
                     <div id="fields-container"></div>
 
                     <div class="text-end mt-4">
-                        <button type="button" class="btn btn-secondary me-2"
+                        <button type="button" class="btn btn-outline-secondary me-2"
                             onclick="window.location='{{ route('forms.index') }}'">
                             Cancel
                         </button>
@@ -147,7 +227,7 @@
                     <div class="col-md-4">
                         <label class="form-label">Field Label
                             <span class="text-danger">*</span>
-                            </label>
+                        </label>
                         <input type="text"
                                class="form-control"
                                name="fields[${index}][label]"
@@ -158,7 +238,7 @@
                     <div class="col-md-3">
                         <label class="form-label">Field Type
                             <span class="text-danger">*</span>
-                            </label>
+                        </label>
                         <select class="form-select"
                                 name="fields[${index}][type]"
                                 required>
