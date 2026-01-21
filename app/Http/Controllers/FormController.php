@@ -14,7 +14,9 @@ class FormController extends Controller
      */
     public function index()
     {
-        return view('form.index', ['forms' => Form::all()]);
+        $forms = Form::with(['fields', 'submissions'])->paginate(10);
+
+        return view('form.index', compact('forms'));
     }
 
     /**
