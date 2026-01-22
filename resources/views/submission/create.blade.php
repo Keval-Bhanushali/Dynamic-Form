@@ -5,50 +5,43 @@
 @section('content')
 
 <style>
-    :root {
-        --primary-gradient: linear-gradient(135deg, #6366f1, #22d3ee);
-        --border-light: rgba(0, 0, 0, 0.08);
-    }
-
     body {
-        /* Removed dark background - uses layout */
+        background-color: #020617;
     }
 
-    .light-card {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border: 1px solid var(--border-light);
+    .card-dark {
+        background: linear-gradient(145deg, #020617, #020617);
+        border: 1px solid #1e293b;
         border-radius: 16px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
 
-    .light-header {
-        background: var(--primary-gradient);
+    .card-header-dark {
+        background: linear-gradient(135deg, #6366f1, #22d3ee);
         color: #fff;
         border-radius: 16px 16px 0 0;
     }
 
     .form-label {
-        color: #1e293b;
+        color: #c7d2fe;
         font-weight: 500;
     }
 
     .form-control {
-        background-color: #fff;
-        color: #1e293b;
-        border: 1px solid #d1d5db;
+        background-color: #020617;
+        color: #e5e7eb;
+        border: 1px solid #1e293b;
         border-radius: 10px;
     }
 
     .form-control:focus {
-        background-color: #fff;
+        background-color: #020617;
         border-color: #38bdf8;
         box-shadow: 0 0 0 0.2rem rgba(56, 189, 248, 0.35);
-        color: #1e293b;
+        color: #fff;
     }
 
     .btn-gradient {
-        background: var(--primary-gradient);
+        background: linear-gradient(135deg, #6366f1, #22d3ee);
         border: none;
         color: #fff;
         border-radius: 10px;
@@ -56,16 +49,13 @@
 
     .btn-gradient:hover {
         opacity: 0.9;
-        color: #fff;
     }
 
     .badge-required {
-        color: #dc2626;
-        background: rgba(239, 68, 68, 0.1);
-        padding: 0.25em 0.5em;
-        border-radius: 6px;
+        color: #f87171;
     }
 </style>
+
 <div class="row justify-content-center">
     <div class="col-lg-8">
 

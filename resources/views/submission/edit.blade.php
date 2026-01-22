@@ -5,11 +5,11 @@
 @section('content')
 <div class="row justify-content-center">
     <div class="col-md-8">
-        <div class="card light-card shadow-lg border-0 mb-4">
-            <div class="card-header light-header">
+        <div class="card shadow-lg border-0 mb-4">
+            <div class="card-header bg-primary text-white">
                 <h3 class="mb-0">Edit Submission for {{ $submission->form->name }}</h3>
             </div>
-            <div class="card-body">
+            <div class="card-body bg-dark text-light">
                 <form action="{{ route('submissions.update', $submission) }}" method="POST">
                     @csrf
                     @method('PUT')
@@ -52,8 +52,8 @@
                             $field->pivot->is_required ? 'required' : '' }}>
                         @break
                         @case('textarea')
-                        <textarea class="form-control @error('data.' . $field->id) is-invalid @enderror"
-                            id="field_{{ $field->id }}" name="data[{{ $field->id }}]" rows="4" {{
+                        <textarea class="form-control @error('data.' . $field->id) is-invalid @enderror" id="field_{{ $field->id }}"
+                            name="data[{{ $field->id }}]" rows="4" {{
                             $field->pivot->is_required ? 'required' : '' }}>{{ old('data.' . $field->id, $data[$field->label] ?? '') }}</textarea>
                         @break
                         @endswitch
@@ -64,16 +64,13 @@
                     </div>
                     @endforeach
 
-                    <button type="submit" class="btn btn-gradient px-5 py-3 fw-semibold shadow-lg">
-                        <i class="bi bi-check-circle-fill me-2"></i>
-                        Update
-                    </button>
+                    <button type="submit" class="btn btn-primary btn-md">Update</button>
                 </form>
             </div>
         </div>
 
         <div class="mt-4">
-            <a href="{{ route('forms.show', $submission->form) }}" class="btn btn-outline-primary btn-lg">
+            <a href="{{ route('forms.show', $submission->form) }}" class="btn btn-outline-secondary btn-lg">
                 <i class="bi bi-arrow-left-circle me-2"></i>Back to Form
             </a>
         </div>
