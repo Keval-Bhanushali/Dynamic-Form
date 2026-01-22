@@ -47,7 +47,26 @@
                             <p class="card-text mb-0">forms created</p>
                         </div>
                         <div class="card-footer bg-transparent pt-0">
-                            <a href="{{ route('forms.index') }}" class="btn btn-light btn-sm w-100">View Forms</a>
+                            <a href="{{ route('forms.index') }}" class="btn btn-light btn-sm w-100">View All Forms</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Products Stats Card -->
+                <div class="col-md-4 col-lg-3">
+                    <div class="card border-0 shadow-sm h-100 text-dark stats-card submissions">
+                        <div class="card-header bg-transparent pb-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0">Total Products</h5>
+                                <i class="bi bi-box-seam fs-2 opacity-75"></i>
+                            </div>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-center text-center">
+                            <h2 class="display-4 mb-1">{{ \App\Models\Product::count() }}</h2>
+                            <p class="card-text mb-0 opacity-90">Products created</p>
+                        </div>
+                        <div class="card-footer bg-transparent pt-0">
+                            <a href="{{ route('products.index') }}" class="btn btn-light btn-sm w-100">View All Products</a>
                         </div>
                     </div>
                 </div>
