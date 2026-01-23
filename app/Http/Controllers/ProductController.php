@@ -84,7 +84,6 @@ class ProductController extends Controller
 
     public function downloadInvoice(ProductPayment $payment)
     {
-        // Generate PDF invoice
         $pdf = Pdf::loadView('products.invoice', compact('payment'));
 
         return $pdf->download('invoice_'.$payment->id.'.pdf');
