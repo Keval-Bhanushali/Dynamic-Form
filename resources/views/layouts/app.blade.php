@@ -273,6 +273,12 @@
                         </a></li> --}}
                 </ul>
             </li>
+            <li class="nav-item">
+                <a class="nav-link {{ request()->routeIs('invoices.*') ? 'active' : '' }}"
+                    href="{{ route('invoices.index') }}">
+                    <i class="bi bi-receipt"></i> Invoices
+                </a>
+            </li>
         </ul>
     </nav>
 

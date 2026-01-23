@@ -6,7 +6,7 @@ use App\Models\Product;
 use App\Models\ProductPayment;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use Razorpay\Api\Api;
+use Razorpay\Api\Api as RazorpayApi;
 
 class ProductController extends Controller
 {
@@ -24,7 +24,7 @@ class ProductController extends Controller
 
     public function createPayment(Request $request, Product $product)
     {
-        $api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
+        $api = new RazorpayApi(config('services.razorpay.key'), config('services.razorpay.secret'));
 
         $order = $api->order->create([
             'receipt' => 'order_'.$product->id.'_'.time(),
@@ -38,7 +38,7 @@ class ProductController extends Controller
 
     public function verifyPayment(Request $request)
     {
-        $api = new Api(config('services.razorpay.key'), config('services.razorpay.secret'));
+        $api = new RazorpayApi(config('services.razorpay.key'), config('services.razorpay.secret'));
 
         try {
             $attributes = [
@@ -70,7 +70,7 @@ class ProductController extends Controller
 
             ProductPayment::create([
                 'product_id' => $product->id,
-                'bank_transaction_id' => $request->razorpay_payment_id ?? 'failed_' . time(),
+                'bank_transaction_id' => $request->razorpay_payment_id ?? 'failed_'.time(),
                 'razorpay_payment_id' => $request->razorpay_payment_id ?? '',
                 'razorpay_order_id' => $request->razorpay_order_id ?? '',
                 'amount' => $product->price,
@@ -88,5 +88,12 @@ class ProductController extends Controller
         $pdf = Pdf::loadView('products.invoice', compact('payment'));
 
         return $pdf->download('invoice_'.$payment->id.'.pdf');
+    }
+
+    public function listInvoices()
+    {
+        $payments = ProductPayment::where('status', 'completed')->get();
+
+        return view('products.invoices', compact('payments'));
     }
 }
