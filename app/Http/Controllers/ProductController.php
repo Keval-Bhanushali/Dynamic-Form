@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\ProductPayment;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api as RazorpayApi;
 
@@ -80,19 +79,5 @@ class ProductController extends Controller
 
             return redirect()->route('products.show', $product)->with('error', 'Payment failed!');
         }
-    }
-
-    public function downloadInvoice(ProductPayment $payment)
-    {
-        $pdf = Pdf::loadView('products.invoice', compact('payment'));
-
-        return $pdf->download('invoice_'.$payment->id.'.pdf');
-    }
-
-    public function listInvoices()
-    {
-        $payments = ProductPayment::where('status', 'completed')->get();
-
-        return view('products.invoices', compact('payments'));
     }
 }

@@ -14,7 +14,8 @@
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.10.1",
         "razorpay/razorpay": "^2.9",
-        "thecodingmachine/safe": "*"
+        "thecodingmachine/safe": "*",
+        "yajra/laravel-datatables-oracle": "^12.6"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
@@ -87,6 +88,6 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }
