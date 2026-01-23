@@ -6,51 +6,52 @@
 
 <style>
     body {
-        background-color: #020617;
+        background-color: #f8fafc;
+        color: #1f2937;
     }
 
-    .dark-card {
-        background: linear-gradient(145deg, #020617, #020617);
-        border: 1px solid #1e293b;
+    .light-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
         border-radius: 16px;
     }
 
-    .dark-header {
-        background: linear-gradient(135deg, #6366f1, #22d3ee);
+    .light-header {
+        background: linear-gradient(135deg, #4c9bf2, #63a9f1);
         color: #fff;
         border-radius: 16px 16px 0 0;
     }
 
     .form-label {
-        color: #c7d2fe;
+        color: #374151;
         font-weight: 500;
     }
 
     .form-control,
     .form-select {
-        background-color: #020617;
-        color: #e5e7eb;
-        border: 1px solid #1e293b;
+        background-color: #ffffff;
+        color: #1f2937;
+        border: 1px solid #d1d5db;
         border-radius: 10px;
     }
 
     .form-control:focus,
     .form-select:focus {
-        background-color: #020617;
-        border-color: #38bdf8;
-        box-shadow: 0 0 0 0.2rem rgba(56, 189, 248, 0.35);
-        color: #fff;
+        background-color: #ffffff;
+        border-color: #60a5fa;
+        box-shadow: 0 0 0 0.2rem rgba(96, 165, 250, 0.35);
+        color: #1f2937;
     }
 
     .field-item {
-        background: linear-gradient(145deg, #020617, #020617);
-        border: 1px solid #1e293b;
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
         border-radius: 14px;
-        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
     }
 
     .btn-gradient {
-        background: linear-gradient(135deg, #6366f1, #22d3ee);
+        background: linear-gradient(135deg, #4c9bf2, #63a9f1);
         border: none;
         color: #fff;
         border-radius: 10px;
@@ -72,16 +73,20 @@
     }
 
     .form-check-label {
-        color: #e5e7eb;
+        color: #1f2937;
+    }
+
+    textarea {
+        resize: vertical;
     }
 </style>
 
 <div class="row justify-content-center">
     <div class="col-lg-9">
-        <div class="card dark-card shadow-lg border-0">
-            <div class="card-header dark-header">
+        <div class="card light-card shadow-lg border-0">
+            <div class="card-header light-header">
                 <h4 class="mb-0">✨ Create New Form</h4>
-                <small class="opacity-75">Build your form in dark mode</small>
+                <small class="opacity-75">Build your form in light mode</small>
             </div>
 
             <div class="card-body p-4">
@@ -108,7 +113,7 @@
 
                     <!-- Fields -->
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="text-light mb-0">🧩 Form Fields</h5>
+                        <h5 class="text-dark mb-0">🧩 Form Fields</h5>
                         <button type="button" id="add-field" class="btn btn-gradient btn-sm">
                             + Add Field
                         </button>
@@ -149,7 +154,7 @@
                             <span class="text-danger">*</span>
                             </label>
                         <input type="text"
-                               class="form-control"
+                               class="form-control @error('fields.${index}.label') is-invalid @enderror"
                                name="fields[${index}][label]"
                                value="${fieldData.label || ''}"
                                required>

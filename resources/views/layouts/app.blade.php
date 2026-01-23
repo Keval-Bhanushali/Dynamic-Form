@@ -246,7 +246,7 @@
                 </a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle {{ request()->routeIs('forms.*') ? 'active' : '' }}" href="#"
+                <a class="nav-link dropdown-toggle {{ request()->routeIs('forms.*')|| request()->routeIs('submissions.*') ? 'active' : '' }}" href="#"
                     id="formsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="bi bi-file-earmark-text"></i> Forms
                 </a>

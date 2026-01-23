@@ -6,19 +6,23 @@
 
 <style>
     body {
-        background-color: #020617;
+        background-color: #f8fafc;
+        /* Light background */
+        color: #333;
+        /* Dark text for better readability */
     }
 
     .page-header {
-        background: linear-gradient(135deg, #1e293b, #020617);
+        background: linear-gradient(135deg, #eef2f7, #f8fafc);
         border-radius: 16px;
         padding: 24px;
-        border: 1px solid #1e293b;
+        border: 1px solid #d1d5db;
     }
 
     .card-dark {
-        background: linear-gradient(145deg, #020617, #020617);
-        border: 1px solid #1e293b;
+        background: linear-gradient(145deg, #ffffff, #f9fafb);
+        /* Lighter card background */
+        border: 1px solid #d1d5db;
         border-radius: 16px;
     }
 
@@ -27,23 +31,24 @@
     }
 
     .form-row-hover:hover {
-        background: rgba(99, 102, 241, 0.12);
+        background: rgba(99, 102, 241, 0.1);
+        /* Light hover effect */
         border-left: 4px solid #6366f1;
         transform: translateX(6px);
     }
 
     .badge-dark-info {
-        background: rgba(56, 189, 248, 0.15);
+        background: rgba(56, 189, 248, 0.1);
         color: #38bdf8;
     }
 
     .badge-dark-success {
-        background: rgba(34, 197, 94, 0.15);
+        background: rgba(34, 197, 94, 0.1);
         color: #22c55e;
     }
 
     .icon-circle {
-        background: rgba(99, 102, 241, 0.15);
+        background: rgba(99, 102, 241, 0.1);
         padding: 14px;
         border-radius: 50%;
     }
@@ -62,16 +67,18 @@
     .btn-outline-warning,
     .btn-outline-danger {
         border-radius: 8px;
+        border-color: #d1d5db;
     }
 
     .text-muted {
-        color: #94a3b8 !important;
+        color: #6b7280 !important;
+        /* Muted gray color for text */
     }
 
     .empty-state {
-        background: linear-gradient(145deg, #020617, #020617);
+        background: linear-gradient(145deg, #ffffff, #f9fafb);
         border-radius: 16px;
-        border: 1px dashed #1e293b;
+        border: 1px dashed #d1d5db;
     }
 </style>
 
@@ -81,7 +88,7 @@
         <div class="col-md-6 d-flex align-items-center">
             <i class="bi bi-file-earmark-text-fill fs-1 text-primary me-3"></i>
             <div>
-                <h1 class="h3 mb-1 fw-bold text-light">Forms Management</h1>
+                <h1 class="h3 mb-1 fw-bold text-dark">Forms Management</h1>
                 <small class="text-muted">Manage your dynamic forms</small>
             </div>
         </div>
@@ -96,7 +103,7 @@
 <!-- Forms List -->
 <div class="card card-dark shadow-lg overflow-hidden">
     <div class="card-header bg-transparent py-4 border-bottom border-light border-opacity-10">
-        <h5 class="mb-0 fw-bold text-light">
+        <h5 class="mb-0 fw-bold text-dark">
             <i class="bi bi-table me-2"></i>All Forms
         </h5>
     </div>
@@ -121,62 +128,55 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-    // Pure JavaScript - NO jQuery needed
-    const formsContainer = document.getElementById('formsContainer');
-    const paginationLinks = document.getElementById('paginationLinks');
-    
-    // Use event delegation for pagination
-    document.addEventListener('click', function(e) {
-        if (e.target.closest('.pagination a.page-link')) {
-            e.preventDefault();
-            
-            const link = e.target.closest('a');
-            const url = link.getAttribute('href');
-            
-            if (!url || url.includes('#')) return;
-            
-            // Show loading
-            formsContainer.innerHTML = `
-                <div class="text-center py-5">
-                    <div class="spinner-border text-primary fs-1" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <div class="mt-3 text-muted">Loading forms...</div>
-                </div>
-            `;
-            
-            // Fetch new content
-            fetch(url, {
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                formsContainer.innerHTML = data.html;
-                paginationLinks.innerHTML = data.pagination;
+        // Pure JavaScript - NO jQuery needed
+        const formsContainer = document.getElementById('formsContainer');
+        const paginationLinks = document.getElementById('paginationLinks');
+        
+        // Use event delegation for pagination
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.pagination a.page-link')) {
+                e.preventDefault();
                 
-                // Update counter
-                const counter = document.querySelector('.text-muted.small');
-                if (counter) {
-                    counter.textContent = `Showing ${data.first_item} to ${data.last_item} of ${data.total} forms`;
-                }
-            })
-            .catch(error => {
-                console.error('AJAX Error:', error);
-                window.location.href = url; // Fallback
-            });
-        }
+                const link = e.target.closest('a');
+                const url = link.getAttribute('href');
+                
+                if (!url || url.includes('#')) return;
+                
+                // Show loading
+                formsContainer.innerHTML = `
+                    <div class="text-center py-5">
+                        <div class="spinner-border text-primary fs-1" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <div class="mt-3 text-muted">Loading forms...</div>
+                    </div>
+                `;
+                
+                // Fetch new content
+                fetch(url, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    formsContainer.innerHTML = data.html;
+                    paginationLinks.innerHTML = data.pagination;
+                    
+                    // Update counter
+                    const counter = document.querySelector('.text-muted.small');
+                    if (counter) {
+                        counter.textContent = `Showing ${data.first_item} to ${data.last_item} of ${data.total} forms`;
+                    }
+                })
+                .catch(error => {
+                    console.error('AJAX Error:', error);
+                    window.location.href = url; // Fallback
+                });
+            }
+        });
     });
-});
 </script>
-
-<!-- ADD THIS to <head> -->
-<meta name="csrf-token" content="{{ csrf_token() }}">
-
-<!-- Add CSRF meta tag in <head> of your layout -->
-<meta name="csrf-token" content="{{ csrf_token() }}">
 
 @endsection

@@ -6,49 +6,54 @@
 
 <style>
     body {
-        background-color: #020617;
+        background-color: #f8fafc;
+        /* Light background */
+        color: #1f2937;
+        /* Dark text */
     }
 
-    .card-dark {
-        background: linear-gradient(145deg, #020617, #020617);
-        border: 1px solid #1e293b;
+    .card-light {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
         border-radius: 16px;
     }
 
-    .card-header-dark {
-        background: linear-gradient(135deg, #6366f1, #22d3ee);
+    .card-header-light {
+        background: linear-gradient(135deg, #4c9bf2, #63a9f1);
         color: #fff;
         border-radius: 16px 16px 0 0;
     }
 
     .form-label {
-        color: #c7d2fe;
+        color: #374151;
         font-weight: 500;
     }
 
     .form-control,
     .form-select {
-        background-color: #020617;
-        color: #e5e7eb;
-        border: 1px solid #1e293b;
+        background-color: #ffffff;
+        color: #1f2937;
+        border: 1px solid #d1d5db;
         border-radius: 10px;
     }
 
     .form-control:focus,
     .form-select:focus {
-        border-color: #38bdf8;
-        box-shadow: 0 0 0 0.2rem rgba(56, 189, 248, .35);
-        color: black;
+        background-color: #ffffff;
+        border-color: #60a5fa;
+        box-shadow: 0 0 0 0.2rem rgba(96, 165, 250, 0.35);
+        color: #1f2937;
     }
 
     .field-item {
-        background: #020617;
-        border: 1px solid #1e293b;
+        background: #ffffff;
+        border: 1px solid #d1d5db;
         border-radius: 14px;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
     }
 
     .btn-gradient {
-        background: linear-gradient(135deg, #6366f1, #22d3ee);
+        background: linear-gradient(135deg, #4c9bf2, #63a9f1);
         border: none;
         color: #fff;
         border-radius: 10px;
@@ -60,17 +65,24 @@
 
     .btn-outline-danger {
         border-radius: 10px;
+        border-color: #ef4444;
+        color: #ef4444;
+    }
+
+    .btn-outline-danger:hover {
+        background-color: #ef4444;
+        color: #fff;
     }
 
     .form-check-label {
-        color: #e5e7eb;
+        color: #374151;
     }
 </style>
 
 <div class="row justify-content-center">
     <div class="col-lg-9">
-        <div class="card card-dark shadow-lg border-0">
-            <div class="card-header card-header-dark">
+        <div class="card card-light shadow-lg border-0">
+            <div class="card-header card-header-light">
                 <h4 class="mb-0">✏️ Edit Form</h4>
                 <small class="opacity-75">Update form details & fields</small>
             </div>
@@ -104,7 +116,7 @@
 
                     <!-- Fields Header -->
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h5 class="text-light mb-0">🧩 Fields</h5>
+                        <h5 class="text-dark mb-0">🧩 Fields</h5>
                         <button type="button" id="add-field" class="btn btn-gradient btn-sm">
                             + Add Field
                         </button>
@@ -131,86 +143,86 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-    const oldFields = @json(old('fields'));
-    const existingFields = @json($fields);
-    const errors = @json($errors->toArray());
+        const oldFields = @json(old('fields'));
+        const existingFields = @json($fields);
+        const errors = @json($errors->toArray());
 
-    const fieldsToUse = (oldFields && oldFields.length) ? oldFields : existingFields;
+        const fieldsToUse = (oldFields && oldFields.length) ? oldFields : existingFields;
 
-    fieldsToUse.forEach((field, index) => addField(field, index, errors));
+        fieldsToUse.forEach((field, index) => addField(field, index, errors));
 
-    if (!fieldsToUse.length) addField({}, 0, errors);
-});
+        if (!fieldsToUse.length) addField({}, 0, errors);
+    });
 
-function addField(fieldData = {}, index, errors = {}) {
-    const container = document.getElementById('fields-container');
+    function addField(fieldData = {}, index, errors = {}) {
+        const container = document.getElementById('fields-container');
 
-    container.insertAdjacentHTML('beforeend', `
-        <div class="field-item p-3 mb-3">
-            <div class="row g-3 align-items-end">
+        container.insertAdjacentHTML('beforeend', `
+            <div class="field-item p-3 mb-3">
+                <div class="row g-3 align-items-end">
 
-                <div class="col-md-4">
-                    <label class="form-label">Field Label
-                        <span class='text-danger'>*</span>
+                    <div class="col-md-4">
+                        <label class="form-label">Field Label
+                            <span class='text-danger'>*</span>
                         </label>
-                    <input type="text"
-                           class="form-control ${errors['fields.' + index + '.label'] ? 'is-invalid' : ''}"
-                           name="fields[${index}][label]"
-                           value="${fieldData.label || ''}"
-                           required>
-                    ${errors['fields.' + index + '.label']
-                        ? `<div class="invalid-feedback">${errors['fields.' + index + '.label'][0]}</div>` : ''}
-                </div>
+                        <input type="text"
+                               class="form-control ${errors['fields.' + index + '.label'] ? 'is-invalid' : ''}"
+                               name="fields[${index}][label]"
+                               value="${fieldData.label || ''}"
+                               required>
+                        ${errors['fields.' + index + '.label']
+                            ? `<div class="invalid-feedback">${errors['fields.' + index + '.label'][0]}</div>` : ''}
+                    </div>
 
-                <div class="col-md-3">
-                    <label class="form-label">Field Type
-                        <span class="text-danger">*</span>
+                    <div class="col-md-3">
+                        <label class="form-label">Field Type
+                            <span class="text-danger">*</span>
                         </label>
-                    <select class="form-select ${errors['fields.' + index + '.type'] ? 'is-invalid' : ''}"
-                            name="fields[${index}][type]"
-                            required>
-                        <option value="text" ${fieldData.type === 'text' ? 'selected' : ''}>Text</option>
-                        <option value="number" ${fieldData.type === 'number' ? 'selected' : ''}>Number</option>
-                        <option value="email" ${fieldData.type === 'email' ? 'selected' : ''}>Email</option>
-                        <option value="date" ${fieldData.type === 'date' ? 'selected' : ''}>Date</option>
-                        <option value="time" ${fieldData.type === 'time' ? 'selected' : ''}>Time</option>
-                        <option value="textarea" ${fieldData.type === 'textarea' ? 'selected' : ''}>Textarea</option>
-                    </select>
-                </div>
+                        <select class="form-select ${errors['fields.' + index + '.type'] ? 'is-invalid' : ''}"
+                                name="fields[${index}][type]"
+                                required>
+                            <option value="text" ${fieldData.type === 'text' ? 'selected' : ''}>Text</option>
+                            <option value="number" ${fieldData.type === 'number' ? 'selected' : ''}>Number</option>
+                            <option value="email" ${fieldData.type === 'email' ? 'selected' : ''}>Email</option>
+                            <option value="date" ${fieldData.type === 'date' ? 'selected' : ''}>Date</option>
+                            <option value="time" ${fieldData.type === 'time' ? 'selected' : ''}>Time</option>
+                            <option value="textarea" ${fieldData.type === 'textarea' ? 'selected' : ''}>Textarea</option>
+                        </select>
+                    </div>
 
-                <div class="col-md-3">
-                    <div class="form-check mt-4">
-                        <input type="hidden" name="fields[${index}][is_required]" value="0">
-                        <input class="form-check-input"
-                               type="checkbox"
-                               name="fields[${index}][is_required]"
-                               value="1"
-                               ${fieldData.is_required ? 'checked' : ''}>
-                        <label class="form-check-label">Required</label>
+                    <div class="col-md-3">
+                        <div class="form-check mt-4">
+                            <input type="hidden" name="fields[${index}][is_required]" value="0">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   name="fields[${index}][is_required]"
+                                   value="1"
+                                   ${fieldData.is_required ? 'checked' : ''}>
+                            <label class="form-check-label">Required</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2 text-end">
+                        <button type="button"
+                                class="btn btn-outline-danger btn-sm remove-field">
+                            ✕ Remove
+                        </button>
                     </div>
                 </div>
-
-                <div class="col-md-2 text-end">
-                    <button type="button"
-                            class="btn btn-outline-danger btn-sm remove-field">
-                        ✕ Remove
-                    </button>
-                </div>
             </div>
-        </div>
-    `);
-}
-
-document.getElementById('add-field').addEventListener('click', function () {
-    const container = document.getElementById('fields-container');
-    addField({}, container.children.length);
-});
-
-document.addEventListener('click', function (e) {
-    if (e.target.classList.contains('remove-field')) {
-        e.target.closest('.field-item').remove();
+        `);
     }
-});
+
+    document.getElementById('add-field').addEventListener('click', function () {
+        const container = document.getElementById('fields-container');
+        addField({}, container.children.length);
+    });
+
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('remove-field')) {
+            e.target.closest('.field-item').remove();
+        }
+    });
 </script>
 
 @endsection

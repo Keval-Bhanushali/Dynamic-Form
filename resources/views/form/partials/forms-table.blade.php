@@ -8,7 +8,7 @@
                     <i class="bi bi-file-earmark-text text-primary fs-4"></i>
                 </div>
                 <div class="min-w-0">
-                    <h6 class="mb-1 fw-bold text-light">{{ $form->name }}</h6>
+                    <h6 class="mb-1 fw-bold text-dark">{{ $form->name }}</h6>
                     <p class="mb-0 text-muted small">
                         {{ Str::limit($form->description ?? '', 80) }}
                     </p>
@@ -56,7 +56,7 @@
 <!-- Empty State -->
 <div class="empty-state text-center py-5 m-4">
     <i class="bi bi-file-earmark-x fs-1 text-muted mb-3 d-block"></i>
-    <h5 class="text-light mb-2">No forms created yet</h5>
+    <h5 class="text-dark mb-2">No forms created yet</h5>
     <p class="text-muted mb-4">
         Get started by creating your first dynamic form.
     </p>

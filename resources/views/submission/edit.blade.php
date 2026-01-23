@@ -9,7 +9,7 @@
             <div class="card-header bg-primary text-white">
                 <h3 class="mb-0">Edit Submission for {{ $submission->form->name }}</h3>
             </div>
-            <div class="card-body bg-dark text-light">
+            <div class="card-body bg-light text-dark">
                 <form action="{{ route('submissions.update', $submission) }}" method="POST">
                     @csrf
                     @method('PUT')
@@ -52,8 +52,8 @@
                             $field->pivot->is_required ? 'required' : '' }}>
                         @break
                         @case('textarea')
-                        <textarea class="form-control @error('data.' . $field->id) is-invalid @enderror" id="field_{{ $field->id }}"
-                            name="data[{{ $field->id }}]" rows="4" {{
+                        <textarea class="form-control @error('data.' . $field->id) is-invalid @enderror"
+                            id="field_{{ $field->id }}" name="data[{{ $field->id }}]" rows="4" {{
                             $field->pivot->is_required ? 'required' : '' }}>{{ old('data.' . $field->id, $data[$field->label] ?? '') }}</textarea>
                         @break
                         @endswitch
