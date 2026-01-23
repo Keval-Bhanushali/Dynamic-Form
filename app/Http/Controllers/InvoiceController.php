@@ -19,7 +19,7 @@ class InvoiceController extends Controller
 
         return DataTables::of($payments)
             ->addColumn('action', function ($payment) {
-                return '<a href="'.route('payments.invoice', $payment).'" class="btn btn-sm btn-primary">Download Invoice</a>';
+                return '<a href="'.route('payments.invoice', $payment).'" class="btn btn-sm btn-primary">Download</a>';
             })
             ->rawColumns(['action'])
             ->make(true);
