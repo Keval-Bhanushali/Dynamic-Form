@@ -14,13 +14,18 @@
     }
 
     .recent-forms .list-group-item {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.9);
         border: 1px solid rgba(0, 0, 0, 0.1);
         transition: background 0.3s ease;
     }
 
     .recent-forms .list-group-item:hover {
-        background: rgba(0, 123, 255, 0.1);
+        background: rgba(59, 130, 246, 0.1);
+    }
+
+    .stats-card {
+        background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        border: 1px solid rgba(0, 0, 0, 0.1);
     }
 </style>
 
@@ -66,7 +71,8 @@
                             <p class="card-text mb-0 opacity-90">Products created</p>
                         </div>
                         <div class="card-footer bg-transparent pt-0">
-                            <a href="{{ route('products.index') }}" class="btn btn-light btn-sm w-100">View All Products</a>
+                            <a href="{{ route('products.index') }}" class="btn btn-light btn-sm w-100">View All
+                                Products</a>
                         </div>
                     </div>
                 </div>

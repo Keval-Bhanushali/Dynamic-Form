@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -13,18 +14,18 @@
     <style>
         :root {
             --primary-gradient: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            --glass-bg: rgba(15, 23, 42, 0.95);
-            --alert-success-bg: rgba(34, 197, 94, 0.2);
-            --alert-error-bg: rgba(239, 68, 68, 0.2);
+            --glass-bg: rgba(255, 255, 255, 0.95);
+            --alert-success-bg: rgba(34, 197, 94, 0.1);
+            --alert-error-bg: rgba(239, 68, 68, 0.1);
             --alert-border: 1px solid rgba(148, 163, 184, 0.2);
-            --sidebar-bg: rgba(15, 23, 42, 0.9);
+            --sidebar-bg: rgba(255, 255, 255, 0.9);
             --sidebar-width: 280px;
         }
 
         body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
             min-height: 100vh;
-            color: #f8fafc;
+            color: #1e293b;
             font-family: 'Roboto', sans-serif;
             margin: 0;
             overflow-x: hidden;
@@ -57,7 +58,7 @@
 
         .sidebar-header h4 {
             margin: 0;
-            color: #f8fafc;
+            color: #1e293b;
             font-weight: 600;
         }
 
@@ -70,7 +71,7 @@
         }
 
         .sidebar-nav .nav-link {
-            color: #cbd5e1;
+            color: #475569;
             padding: 0.75rem 1.5rem;
             display: flex;
             align-items: center;
@@ -103,11 +104,11 @@
         }
 
         .content-wrapper {
-            background: rgba(15, 23, 42, 0.7);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
             border-radius: 24px;
             border: 1px solid var(--alert-border);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
             padding: 2.5rem;
             margin: 2rem auto;
             max-width: 1400px;
@@ -122,13 +123,13 @@
         .alert-success {
             background: var(--alert-success-bg);
             border: 1px solid rgba(34, 197, 94, 0.3);
-            color: #34D399;
+            color: #16a34a;
         }
 
         .alert-danger {
             background: var(--alert-error-bg);
             border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #F87171;
+            color: #dc2626;
         }
 
         .alert i {
@@ -136,7 +137,7 @@
         }
 
         .alert .alert-text {
-            color: #F8FAFC;
+            color: #1e293b;
         }
 
         .btn-close-white {
@@ -250,28 +251,27 @@
                     <i class="bi bi-file-earmark-text"></i> Forms
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="formsDropdown">
-                    <li><a class="dropdown-item" href="{{ route('forms.index') }}">
+                    <li><a class="dropdown-item text-dark" href="{{ route('forms.index') }}">
                             <i class="bi bi-list-ul me-2"></i>View All Forms
                         </a></li>
-                    <li><a class="dropdown-item" href="{{ route('forms.create') }}">
+                    <li><a class="dropdown-item text-dark" href="{{ route('forms.create') }}">
                             <i class="bi bi-plus-circle me-2"></i>Create New Form
                         </a></li>
                 </ul>
             </li>
-            {{-- <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-people"></i> Users
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle {{ request()->routeIs('products.*') ? 'active' : '' }}" href="#"
+                    id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-file-earmark-text"></i> Products
                 </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-graph-up"></i> Analytics
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-gear"></i> Settings
-                </a>
+                <ul class="dropdown-menu" aria-labelledby="productsDropdown">
+                    <li><a class="dropdown-item text-dark" href="{{ route('products.index') }}">
+                            <i class="bi bi-list-ul me-2"></i>View All Products
+                        </a></li>
+                    {{-- <li><a class="dropdown-item text-dark" href="{{ route('products.create') }}">
+                            <i class="bi bi-plus-circle me-2"></i>Create New Form
+                        </a></li> --}}
+                </ul>
             </li>
         </ul>
     </nav>
