@@ -40,7 +40,7 @@ $price = $product->$priceKey;
         key: "{{ config('services.razorpay.key') }}",
         amount: "{{ $price * 100 }}", // paise
         currency: "INR",
-        name: "Your Company",
+        name: "EliteEvince Technologies",
         description: "{{ $product->name }}",
         order_id: "{{ $order->razorpay_order_id ?? $order->id }}",
         handler: function (response) {
