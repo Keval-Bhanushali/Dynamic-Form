@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->decimal('price', 10, 2);
+            $table->decimal('three_months', 10, 2);
+            $table->decimal('one_year', 10, 2);
             $table->integer('device_limit');
             $table->softDeletes();
             $table->timestamps();

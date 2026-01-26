@@ -27,7 +27,7 @@ class ProductController extends Controller
 
         $order = $api->order->create([
             'receipt' => 'order_'.$product->id.'_'.time(),
-            'amount' => $product->price * 100, // Amount in paisa
+            'amount' => $product->{$request->duration} * 100, // Amount in paisa
             'currency' => 'INR',
             'payment_capture' => 1,
         ]);
@@ -56,12 +56,16 @@ class ProductController extends Controller
                 'bank_transaction_id' => $request->razorpay_payment_id,
                 'razorpay_payment_id' => $request->razorpay_payment_id,
                 'razorpay_order_id' => $request->razorpay_order_id,
-                'amount' => $product->price,
+                'amount' => $product->{$request->price_key},
                 'status' => 'completed',
                 'payment_data' => $request->all(),
             ]);
 
-            return redirect()->route('products.show', $product)->with('success', 'Payment successful!');
+            $amount = $product->{$request->price_key};
+
+            return redirect()->route('products.show', $product)
+                ->with('success', 'Payment successful!')
+                ->with('amount', $amount);
 
         } catch (\Exception $e) {
             // Payment failed
@@ -72,7 +76,7 @@ class ProductController extends Controller
                 'bank_transaction_id' => $request->razorpay_payment_id ?? 'failed_'.time(),
                 'razorpay_payment_id' => $request->razorpay_payment_id ?? '',
                 'razorpay_order_id' => $request->razorpay_order_id ?? '',
-                'amount' => $product->price,
+                'amount' => $product->{$request->price_key},
                 'status' => 'failed',
                 'payment_data' => $request->all(),
             ]);

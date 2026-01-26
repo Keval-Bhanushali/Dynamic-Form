@@ -13,7 +13,8 @@ class Product extends Model
     protected $fillable = [
         'name',
         'description',
-        'price',
+        'three_months',
+        'one_year',
         'device_limit',
     ];
 

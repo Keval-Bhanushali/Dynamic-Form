@@ -45,7 +45,7 @@
 <body>
     <div class="header">
         <h1>Invoice</h1>
-        <p>Invoice #{{ $payment->id }}</p>
+        <p>Invoice</p>
         <p>Date: {{ $payment->created_at->format('d/m/Y') }}</p>
     </div>
 

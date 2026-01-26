@@ -16,21 +16,24 @@ class ProductSeeder extends Seeder
             'name' => 'Gold Plan',
             'description' => 'Premium plan with all features',
             'device_limit' => 4,
-            'price' => 999.00,
+            'three_months' => 999.00,
+            'one_year' => 3499.00,
         ]);
 
         \App\Models\Product::create([
             'name' => 'Silver Plan',
             'description' => 'Standard plan with essential features',
             'device_limit' => 2,
-            'price' => 499.00,
+            'three_months' => 599.00,
+            'one_year' => 1999.00,
         ]);
 
         \App\Models\Product::create([
             'name' => 'Bronze Plan',
             'description' => 'Basic plan for getting started',
             'device_limit' => 1,
-            'price' => 199.00,
+            'three_months' => 299.00,
+            'one_year' => 999.00,
         ]);
     }
 }
