@@ -76,11 +76,30 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Payments Stats Card -->
+                <div class="col-md-4 col-lg-3">
+                    <div class="card border-0 shadow-sm h-100 text-dark stats-card payments">
+                        <div class="card-header bg-transparent pb-0">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0">Total Payments</h5>
+                                <i class="bi bi-currency-rupee fs-2 opacity-75"></i>
+                            </div>
+                        </div>
+                        <div class="card-body d-flex flex-column justify-content-center text-center">
+                            <h2 class="display-4 mb-1">{{ \App\Models\ProductPayment::count() }}</h2>
+                            <p class="card-text mb-0 opacity-90">Payments processed</p>
+                        </div>
+                        <div class="card-footer bg-transparent pt-0">
+                            <a href="{{ route('invoices') }}" class="btn btn-light btn-sm w-100">View All Payments</a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Recent Forms Section -->
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-6">
                     <div class="card border-0 shadow-sm recent-forms">
                         <div class="card-header bg-transparent">
                             <h5 class="card-title mb-0">Recent Forms</h5>
@@ -109,6 +128,37 @@
                         </div>
                         <div class="card-footer bg-transparent text-center">
                             <a href="{{ route('forms.index') }}" class="btn btn-primary">View All Forms</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-sm recent-forms">
+                        <div class="card-header bg-transparent">
+                            <h5 class="card-title mb-0">Recent Payments</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <ul class="list-group list-group-flush">
+                                @forelse(\App\Models\ProductPayment::latest()->take(3)->get() as $payment)
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>{{ $payment->product->name ?? 'Unnamed Product' }}</strong>
+                                        <br>
+                                        <small class="text-muted">₹{{ number_format($payment->amount, 2) }}</small>
+                                    </div>
+                                    <a href="{{ route('payments.invoice', $payment) }}"
+                                        class="btn btn-outline-primary btn-sm">
+                                        <i class="bi bi-file-earmark-text"></i> Invoice
+                                    </a>
+                                </li>
+                                @empty
+                                <li class="list-group-item text-center text-muted">
+                                    No payments made yet.
+                                </li>
+                                @endforelse
+                            </ul>
+                        </div>
+                        <div class="card-footer bg-transparent text-center">
+                            <a href="{{ route('payments.invoice',$payment) }}" class="btn btn-primary">View All Payments</a>
                         </div>
                     </div>
                 </div>
