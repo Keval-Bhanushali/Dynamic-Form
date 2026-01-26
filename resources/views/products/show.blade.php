@@ -34,6 +34,7 @@
 
             <form action="{{ route('products.payment.create', $product) }}" method="POST">
                 @csrf
+                
                 <button type="submit" class="btn btn-primary w-100 py-3">
                     Buy Now
                 </button>

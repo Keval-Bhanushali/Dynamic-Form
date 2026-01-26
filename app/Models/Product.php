@@ -14,7 +14,7 @@ class Product extends Model
         'name',
         'description',
         'price',
-        'image',
+        'device_limit',
     ];
 
     public function payments()

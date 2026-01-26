@@ -14,6 +14,7 @@
                     <p class="card-text text-muted">{{ $product->description }}</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="h4 text-success">₹{{ number_format($product->price, 2) }}</span>
+                        <span class="badge bg-info text-dark">Devices: {{ $product->device_limit }}</span>
                         <a href="{{ route('products.show', $product) }}" class="btn btn-primary">View Details</a>
                     </div>
                 </div>
